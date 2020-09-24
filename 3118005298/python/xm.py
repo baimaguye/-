@@ -1,23 +1,15 @@
-# -*- coding: utf-8 -*-
-
-# 正则包
 import re
-# html 包
 import html
-# 自然语言处理包
 import jieba
 import jieba.analyse
-# 机器学习包
 from sklearn.metrics.pairwise import cosine_similarity
 
 
 class CosineSimilarity(object):
-    """
-    余弦相似度
-    """
-    def __init__(self, content_x1, content_y2):
-        self.s1 = content_x1
-        self.s2 = content_y2
+    #余弦相似度
+    def __init__(self, x, y):
+        self.s1 = x
+        self.s2 = y
 
     @staticmethod
     def extract_keyword(content):  # 提取关键词
@@ -42,7 +34,7 @@ class CosineSimilarity(object):
 
     def main(self):
         # 去除停用词
-        jieba.analyse.set_stop_words('stopwords(1).txt')
+        jieba.analyse.set_stop_words(r'D:\python\stopwords(1).txt')
 
         # 提取关键词
         keywords1 = self.extract_keyword(self.s1)
@@ -71,9 +63,13 @@ class CosineSimilarity(object):
 
 # 测试
 if __name__ == '__main__':
-    with open('orig.txt', 'r',encoding='utf-8') as x, open('orig_0.8_add.txt', 'r',encoding='utf-8') as y:
+    with open(r'D:\python\orig.txt', 'r',encoding='utf-8') as x, open(r'D:\python\orig_0.8_dis_15.txt', 'r',encoding='utf-8') as y:
         content_x = x.read()
         content_y = y.read()
         similarity = CosineSimilarity(content_x, content_y)
         similarity = similarity.main()
         print('相似度: %.2f%%' % (similarity*100))
+        f3 = open(r'D:\python\result.txt','w')
+        f3.write('文本相似度为:'+str(similarity*100)+'%')        #将结果转换为字符串类型并写入result.txt文件
+    
+       
